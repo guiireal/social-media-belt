@@ -29,7 +29,6 @@ export default function AppLayout({ children }: LayoutProps) {
                   </span>
                   <span className="mx-2 text-sm font-normal">Home</span>
                 </LinkMenu>
-
                 <a
                   className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
                   href="#"
@@ -46,7 +45,7 @@ export default function AppLayout({ children }: LayoutProps) {
                     </svg>
                   </span>
                   <span className="mx-2 text-sm font-normal">
-                    Conta: DevPleno
+                    Refered Projects
                     <span className="w-4 h-2 p-1 ml-4 text-xs text-gray-400 bg-gray-200 rounded-lg">
                       0
                     </span>
@@ -132,7 +131,7 @@ export default function AppLayout({ children }: LayoutProps) {
                   <img
                     alt="profil"
                     src="/images/person/1.jpg"
-                    className="object-cover w-10 h-10 mx-auto rounded-full"
+                    className="object-cover w-10 h-10 mx-auto rounded-full "
                   />
                 </a>
                 <button className="flex items-center text-gray-500 text-md">

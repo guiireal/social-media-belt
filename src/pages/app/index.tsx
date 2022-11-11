@@ -1,12 +1,11 @@
+import Heading1 from "@/components/Heading1";
+import Heading2 from "@/components/Heading2";
+
 export default function AppPage() {
   return (
     <>
-      <h1 className="text-4xl font-semibold text-gray-800">
-        Good afternoom, Charlie
-      </h1>
-      <h2 className="text-gray-400 text-md">
-        Heres whats happening with your ambassador account today.
-      </h2>
+      <Heading1>Seja bem-vindo!</Heading1>
+      <Heading2>Gerenciador de links</Heading2>
       <div className="flex flex-col items-center w-full my-6 space-y-4 md:space-x-4 md:space-y-0 md:flex-row">
         <div className="w-full md:w-6/12">
           <div className="relative w-full overflow-hidden bg-white shadow-lg">
@@ -117,7 +116,7 @@ export default function AppPage() {
                 22%
               </span>
             </div>
-            <div className="">
+            <div>
               <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
                 <p>Unique URL</p>
                 <div className="flex items-end text-xs">
