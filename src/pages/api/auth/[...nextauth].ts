@@ -22,11 +22,20 @@ export default NextAuth({
   },
   pages: {},
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async session({ session, token }) {
+      // @ts-ignore
+      session.user.id = token.sub;
+      return session;
+    },
+    async jwt({ token, user, isNewUser }) {
       if (isNewUser && user) {
         const account = await prisma.tenant.findFirst({
           where: {
-            userId: user.id,
+            tenantUsers: {
+              some: {
+                userId: user.id,
+              },
+            },
           },
         });
 
@@ -34,10 +43,15 @@ export default NextAuth({
           await prisma.tenant.create({
             data: {
               name: "Meu tenant",
-              userId: user.id,
               image: "",
               plan: "free",
               slug: "meu-tenant",
+              tenantUsers: {
+                create: {
+                  userId: user.id,
+                  role: "owner",
+                },
+              },
             },
           });
         }
@@ -46,5 +60,5 @@ export default NextAuth({
     },
   },
   events: {},
-  debug: true,
+  debug: false,
 });

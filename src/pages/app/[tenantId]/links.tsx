@@ -23,7 +23,7 @@ const linkSchema = yup
   })
   .required();
 
-export default function LinksPage() {
+export default function TenantIdLinksPage() {
   const {
     register,
     handleSubmit,

@@ -1,7 +1,7 @@
 import Heading1 from "@/components/Heading1";
 import Heading2 from "@/components/Heading2";
 
-export default function AppPage() {
+export default function TenantIdPage() {
   return (
     <>
       <Heading1>Seja bem-vindo!</Heading1>
