@@ -1,6 +1,7 @@
 import Heading1 from "@/components/Heading1";
 import Heading2 from "@/components/Heading2";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -24,6 +25,7 @@ const linkSchema = yup
   .required();
 
 export default function TenantIdLinksPage() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -32,12 +34,16 @@ export default function TenantIdLinksPage() {
     resolver: yupResolver(linkSchema),
   });
 
-  const submit: SubmitHandler<NewLinkForm> = (inputs) => {
-    console.log(inputs);
+  const submit: SubmitHandler<NewLinkForm> = async (inputs) => {
+    const data = await fetch(`/api/${router.query?.tenantId}/links`, {
+      method: "POST",
+      body: JSON.stringify(inputs),
+    });
   };
 
   return (
     <>
+      <pre>{JSON.stringify(errors.name?.message, null, 2)}</pre>
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div>
           <Heading1>Gerenciador de Links</Heading1>

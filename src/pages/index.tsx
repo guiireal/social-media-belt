@@ -17,7 +17,9 @@ export default function HomePage() {
         </li>
       </ul>
       <p>
-        <button onClick={() => signIn()}>Signin</button>
+        <button onClick={() => signIn("github", { callbackUrl: "/app" })}>
+          Signin
+        </button>
       </p>
 
       <p>

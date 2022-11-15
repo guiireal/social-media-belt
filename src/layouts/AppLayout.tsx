@@ -1,10 +1,27 @@
 import LinkMenu from "@/components/LinkMenu";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 export default function AppLayout({ children }: LayoutProps) {
+  const { data: session } = useSession();
+
+  const router = useRouter();
+
+  if (!session?.user) {
+    return <></>;
+  }
+
+  const { name, image } = session.user;
+
+  if (!name || !image) {
+    return <></>;
+  }
+
   return (
     <main className="relative h-screen overflow-hidden bg-gray-100">
       <div className="flex items-start justify-between">
@@ -15,7 +32,7 @@ export default function AppLayout({ children }: LayoutProps) {
             </div>
             <nav className="mt-6">
               <div>
-                <LinkMenu href="/app">
+                <LinkMenu href={`/app/${router.query?.tenantId}`}>
                   <span className="text-left">
                     <svg
                       width={20}
@@ -29,10 +46,7 @@ export default function AppLayout({ children }: LayoutProps) {
                   </span>
                   <span className="mx-2 text-sm font-normal">Home</span>
                 </LinkMenu>
-                <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
-                  href="#"
-                >
+                <LinkMenu href={`/app/${router.query?.tenantId}/`}>
                   <span className="text-left">
                     <svg
                       width={20}
@@ -45,13 +59,13 @@ export default function AppLayout({ children }: LayoutProps) {
                     </svg>
                   </span>
                   <span className="mx-2 text-sm font-normal">
-                    Refered Projects
+                    Conta Gui
                     <span className="w-4 h-2 p-1 ml-4 text-xs text-gray-400 bg-gray-200 rounded-lg">
                       0
                     </span>
                   </span>
-                </a>
-                <LinkMenu href="/app/links">
+                </LinkMenu>
+                <LinkMenu href={`/app/${router.query?.tenantId}/links`}>
                   <span className="text-left">
                     <svg
                       width={20}
@@ -127,15 +141,22 @@ export default function AppLayout({ children }: LayoutProps) {
                   </svg>
                 </button>
                 <span className="w-1 h-8 bg-gray-200 rounded-lg"></span>
-                <a href="#" className="relative block">
-                  <img
-                    alt="profil"
-                    src="/images/person/1.jpg"
-                    className="object-cover w-10 h-10 mx-auto rounded-full "
+                <span className="relative block">
+                  <Image
+                    alt={name}
+                    src={image}
+                    width={100}
+                    height={100}
+                    className="object-cover w-10 h-10 mx-auto rounded-full"
                   />
-                </a>
-                <button className="flex items-center text-gray-500 text-md">
-                  Charlie R
+                </span>
+                <button
+                  className="flex items-center text-gray-500 text-md"
+                  onClick={() => {
+                    signOut({ callbackUrl: "/" });
+                  }}
+                >
+                  {name}
                   <svg
                     width={20}
                     height={20}

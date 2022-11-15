@@ -1,4 +1,5 @@
 import AppLayout from "@/layouts/AppLayout";
+import EmptyLayout from "@/layouts/EmptyLayout";
 import PublicLayout from "@/layouts/PublicLayout";
 import TenantLayout from "@/layouts/TenantLayout";
 import { SessionProvider } from "next-auth/react";
@@ -22,6 +23,10 @@ export default function App({
 
   if (pathname.indexOf("/[slug]") === 0) {
     Layout = TenantLayout;
+  }
+
+  if (pathname === "/app") {
+    Layout = EmptyLayout;
   }
 
   return (
