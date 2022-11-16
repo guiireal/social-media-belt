@@ -1,16 +1,16 @@
 import fetcher from "@/services/fetcher";
+import { Tenant } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import type { TenantData } from "types";
 
 export default function AppPage() {
   const { data: session } = useSession();
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const { data } = useSWR<TenantData[]>("/api/tenants", fetcher);
+  const { data } = useSWR<Tenant[]>("/api/tenants", fetcher);
   const router = useRouter();
 
   useEffect(() => {

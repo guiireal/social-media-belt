@@ -1,11 +1,11 @@
 import prisma from "@/services/prisma";
+import { Tenant } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import type { TenantData } from "./../../../types/index";
 
 export default async function handler(
   request: NextApiRequest,
-  response: NextApiResponse<TenantData[]>
+  response: NextApiResponse<Tenant[]>
 ) {
   const session = await getSession({ req: request });
 
