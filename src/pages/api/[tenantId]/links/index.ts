@@ -29,6 +29,7 @@ export default async function handler(
     }
 
     const { cursor, take } = request.query;
+    const takeNumber = Number(take || 5);
 
     let links: Link[] = [];
 
@@ -41,7 +42,7 @@ export default async function handler(
           id: String(cursor),
         },
         skip: 1,
-        take: Number(take || 5),
+        take: takeNumber,
         orderBy: {
           id: "asc",
         },
@@ -51,7 +52,7 @@ export default async function handler(
         where: {
           tenantId,
         },
-        take: Number(take || 5),
+        take: takeNumber,
         orderBy: {
           id: "asc",
         },
