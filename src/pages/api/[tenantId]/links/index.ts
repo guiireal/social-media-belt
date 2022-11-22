@@ -1,12 +1,13 @@
-import prisma from "@/services/prisma";
-import type { LinkPaginationWrapper } from "@/types/index";
+import { findPaginated, save } from "@/services/links";
+import { Error, LinkPaginationWrapper } from "@/types/index";
+
 import { Link } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 
 export default async function handler(
   request: NextApiRequest,
-  response: NextApiResponse<Link | LinkPaginationWrapper | {}>
+  response: NextApiResponse<Link | LinkPaginationWrapper | Error>
 ) {
   const session = await getSession({ req: request });
 
@@ -16,12 +17,14 @@ export default async function handler(
     if (request.method === "POST") {
       const { name, destination, publicName } = request.body;
 
-      const createdLink = await prisma.link.create({
-        data: {
-          name,
-          destination,
-          publicName,
-          tenantId,
+      const createdLink = await save({
+        name: String(name),
+        destination: String(destination),
+        publicName: String(publicName),
+        tenant: {
+          connect: {
+            id: String(tenantId),
+          },
         },
       });
 
@@ -29,42 +32,13 @@ export default async function handler(
     }
 
     const { cursor, take } = request.query;
-    const takeNumber = Number(take || 5);
 
-    let links: Link[] = [];
+    const links = await findPaginated(tenantId, cursor, take);
 
-    if (cursor) {
-      links = await prisma.link.findMany({
-        where: {
-          tenantId,
-        },
-        cursor: {
-          id: String(cursor),
-        },
-        skip: 1,
-        take: takeNumber,
-        orderBy: {
-          id: "asc",
-        },
-      });
-    } else {
-      links = await prisma.link.findMany({
-        where: {
-          tenantId,
-        },
-        take: takeNumber,
-        orderBy: {
-          id: "asc",
-        },
-      });
-    }
-
-    response.send({
-      cursor: "",
-      take: 1,
-      items: links,
-    });
+    response.send(links);
   } else {
-    response.send({});
+    response.send({
+      message: "You need to be auth.",
+    });
   }
 }
