@@ -8,14 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-type NewLinkForm = {
-  name: string;
-  publicName: string;
-  slug: string;
-  destination: string;
-  appLink: string;
-};
-
 export default function TenantIdLinksPage() {
   const router = useRouter();
   const { tenantId, cursor } = router.query;
