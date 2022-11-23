@@ -35,6 +35,8 @@ model Link {
   name        String   @db.VarChar(50)
   publicName  String   @map("public_name") @db.VarChar(255)
   destination String   @db.VarChar(255)
+  slug        String   @db.VarChar(255)
+  appName     String   @map("app_name") @db.VarChar(50)
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp()
   tenantId    String   @map("tenant_id")
 

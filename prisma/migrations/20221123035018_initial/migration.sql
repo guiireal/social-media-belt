@@ -17,6 +17,20 @@ CREATE TABLE "accounts" (
 );
 
 -- CreateTable
+CREATE TABLE "links" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(50) NOT NULL,
+    "public_name" VARCHAR(255) NOT NULL,
+    "destination" VARCHAR(255) NOT NULL,
+    "slug" VARCHAR(255) NOT NULL,
+    "app_name" VARCHAR(50) NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tenant_id" TEXT NOT NULL,
+
+    CONSTRAINT "links_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "sessions" (
     "id" TEXT NOT NULL,
     "session_token" TEXT NOT NULL,
@@ -42,7 +56,7 @@ CREATE TABLE "tenants" (
 CREATE TABLE "tenant_user" (
     "user_id" TEXT NOT NULL,
     "tenant_id" TEXT NOT NULL,
-    "assigned_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "assigned_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "role" TEXT NOT NULL,
 
     CONSTRAINT "tenant_user_pkey" PRIMARY KEY ("user_id","tenant_id")
@@ -83,6 +97,9 @@ CREATE UNIQUE INDEX "verification_tokens_identifier_token_key" ON "verification_
 
 -- AddForeignKey
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "links" ADD CONSTRAINT "links_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

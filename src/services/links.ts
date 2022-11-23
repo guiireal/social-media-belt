@@ -12,7 +12,7 @@ export async function findPaginated(
   cursor?: string | string[],
   take?: string | string[]
 ) {
-  const takeNumber = Number(take || 10);
+  const takeNumber = Number(take || 5);
 
   const args: Prisma.LinkFindManyArgs = {
     where: {
@@ -32,34 +32,42 @@ export async function findPaginated(
 
   const links = await prisma.link.findMany(args);
 
-  const nextLink = await prisma.link.findFirst({
-    select: {
-      id: true,
-    },
-    where: {
-      id: {
-        gt: links[links.length - 1].id,
-      },
-    },
-    orderBy: {
-      id: "asc",
-    },
-  });
+  let nextLink = null;
 
-  const previousLink = await prisma.link.findMany({
-    select: {
-      id: true,
-    },
-    where: {
-      id: {
-        lt: links[0].id,
+  if (links.length > 0) {
+    nextLink = await prisma.link.findFirst({
+      select: {
+        id: true,
       },
-    },
-    orderBy: {
-      id: "desc",
-    },
-    take: takeNumber,
-  });
+      where: {
+        id: {
+          gt: links[links.length - 1].id,
+        },
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+  }
+
+  let previousLink = null;
+
+  if (links.length > 0) {
+    previousLink = await prisma.link.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        id: {
+          lt: links[0].id,
+        },
+      },
+      orderBy: {
+        id: "desc",
+      },
+      take: takeNumber,
+    });
+  }
 
   return {
     items: links,
