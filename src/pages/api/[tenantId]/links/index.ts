@@ -23,13 +23,13 @@ export default async function handler(
     }
 
     if (request.method === "POST") {
-      const { name, destination, publicName, appName, slug } = request.body;
+      const { name, destination, publicName, appLink, slug } = request.body;
 
       const createdLink = await save({
         name: String(name),
         destination: String(destination),
         publicName: String(publicName),
-        appName: String(appName),
+        appLink: String(appLink),
         slug: String(slug),
         tenant: {
           connect: {

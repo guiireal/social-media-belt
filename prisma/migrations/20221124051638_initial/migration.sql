@@ -23,7 +23,7 @@ CREATE TABLE "links" (
     "public_name" VARCHAR(255) NOT NULL,
     "destination" VARCHAR(255) NOT NULL,
     "slug" VARCHAR(255) NOT NULL,
-    "app_name" VARCHAR(50) NOT NULL,
+    "app_link" VARCHAR(50) NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tenant_id" TEXT NOT NULL,
 

@@ -75,3 +75,16 @@ export async function findPaginated(
     previousCursor: previousLink?.[previousLink.length - 1]?.id || "",
   };
 }
+
+export async function findLinkBySlug(tenantId: string, slug: string) {
+  return await prisma.link.findFirst({
+    select: {
+      id: true,
+      destination: true,
+    },
+    where: {
+      tenantId,
+      slug,
+    },
+  });
+}
